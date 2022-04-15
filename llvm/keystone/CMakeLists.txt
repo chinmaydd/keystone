@@ -44,6 +44,7 @@ add_library(keystone
 )
 
 install(TARGETS keystone DESTINATION lib${LLVM_LIBDIR_SUFFIX})
+install(TARGETS keystone DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 set_target_properties(
   keystone
