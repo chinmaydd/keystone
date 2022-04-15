@@ -10,26 +10,12 @@ set(KEYSTONE_VERSION_MINOR 9)
 option(KEYSTONE_BUILD_STATIC_RUNTIME "Embed static runtime" ON)
 option(BUILD_SHARED_LIBS "Build all libraries as shared libraries instead of static" ON)
 
+
+add_compile_options(-Wno-unused-private-field)
+
 if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   message(STATUS "No build type selected, default to Debug")
   set(CMAKE_BUILD_TYPE "Debug")
-endif()
-
-if (POLICY CMP0022)
-  cmake_policy(SET CMP0022 NEW) # automatic when 2.8.12 is required
-endif()
-
-if (POLICY CMP0051)
-  # CMake 3.1 and higher include generator expressions of the form
-  # $<TARGETLIB:obj> in the SOURCES property.  These need to be
-  # stripped everywhere that access the SOURCES property, so we just
-  # defer to the OLD behavior of not including generator expressions
-  # in the output for now.
-  cmake_policy(SET CMP0051 OLD)
-endif()
-
-if (POLICY CMP0063)
-  set(CMAKE_POLICY_DEFAULT_CMP0063 NEW) # automatic when 3.3.2 is required
 endif()
 
 if (CMAKE_VERSION VERSION_LESS 3.1.20141117)
@@ -44,9 +30,6 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /EHsc")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /EHsc")
 else()
-    set(CMAKE_C_VISIBILITY_PRESET hidden)
-    set(CMAKE_CXX_VISIBILITY_PRESET hidden)
-
     # Use GNUInstallDirs to set LLVM_LIBDIR_SUFFIX. This should automatically
     # handle cases where the libdir should be lib/, lib64/, or lib/<arch>/
     # depending on the target system and cmake options.
@@ -115,5 +98,3 @@ configure_file(
 
 add_custom_target(uninstall
     COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/CMakeUninstall.cmake)
-
-add_subdirectory(suite/fuzz)
