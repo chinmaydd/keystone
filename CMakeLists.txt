@@ -8,6 +8,7 @@ set(KEYSTONE_VERSION_MAJOR 0)
 set(KEYSTONE_VERSION_MINOR 9)
 
 option(KEYSTONE_BUILD_STATIC_RUNTIME "Embed static runtime" ON)
+option(BUILD_SHARED_LIBS "Build all libraries as shared libraries instead of static" ON)
 
 if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   message(STATUS "No build type selected, default to Debug")
